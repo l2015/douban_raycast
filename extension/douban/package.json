@@ -2,15 +2,19 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "douban",
   "title": "douban",
-  "description": "",
-  "icon": "command-icon.png",
+  "description": "Search music, books, movies, TV series on Douban.",
+  "icon": "douban.png",
   "author": "l2015",
+  "categories": [
+    "Web",
+    "Media"
+  ],
   "license": "MIT",
   "commands": [
     {
-      "name": "db2",
-      "title": "db2",
-      "description": "",
+      "name": "douban",
+      "title": "Serach Media",
+      "description": "douban",
       "mode": "view"
     }
   ],
