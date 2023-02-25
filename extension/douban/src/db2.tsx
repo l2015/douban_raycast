@@ -1,4 +1,4 @@
-import { List, ActionPanel } from "@raycast/api";
+import { Action, List, ActionPanel } from "@raycast/api";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
@@ -8,7 +8,9 @@ type Movie = {
   year: string;
   rating: string;
   actors: string[];
+  url: string; // 新增属性
 };
+
 
 type SearchResults = Movie[];
 
@@ -44,7 +46,11 @@ export default function DoubanSearch() {
           const ratingEl = $(item).find("span.rating_nums");
           const yearEl = $(item).find("span.subject-cast:last-child");
           const actorsEl = $(item).find("span.subject-cast:last-child");
-          console.log(actorsEl);
+          // const linkEl = $(item).find("div.content a.");
+          const linkEl = $(item).find('div.content a');
+          // console.log(actorsEl);
+          const url = linkEl?.prop('href')?.trim() || '2';
+          console.log(url);
           const title = titleEl?.text()?.trim() || "Unknown Title";
           const rating = ratingEl?.text()?.trim() || "N/A";
           const year = yearEl
@@ -64,6 +70,7 @@ export default function DoubanSearch() {
             rating,
             year,
             actors,
+            url, // 将链接添加到对象中
           };
 
           movies.push(movie);
@@ -86,9 +93,9 @@ export default function DoubanSearch() {
     setSearch(searchText);
   };
 
-  const handleSelectMovie = (movie: Movie) => {
-    console.log(`Selected movie: ${movie.title}`);
-  };
+  // const handleSelectMovie = (movie: Movie) => {
+  //   console.log(`Selected movie: ${movie.title}`);
+  // };
 
 
   return (
@@ -100,7 +107,7 @@ export default function DoubanSearch() {
           subtitle={`年代: ${movie.year} | 评分: ${movie.rating} |  ${movie.actors.join(", ")}`}
           actions={
             <ActionPanel>
-              <ActionPanel.Item title="Select" onAction={() => handleSelectMovie(movie)} />
+                <Action.OpenInBrowser url={movie.url} />
             </ActionPanel>
           }
         />
